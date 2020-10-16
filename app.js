@@ -7,7 +7,6 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const csurf = require('csurf');
 
 const AppError = require('./utilities/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -17,8 +16,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewsRoutes');
 
-const csurfM = csurf({ cookie: true });
-
+// Start express app.
 const app = express();
 
 app.set('view engine', 'pug');
@@ -29,9 +27,6 @@ app.set('views', path.join(__dirname, 'views'));
 // Serving static files.
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-
-// Security measure against csrf attacks with csurf middlewares.
-
 
 // Set Security Http headers.
 app.use(helmet());
