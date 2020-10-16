@@ -1,0 +1,101 @@
+mixin manageForm(na,type,val)
+    .manage-form__group
+        label.manage-label(for=`${na}`)= na
+        | :
+        input.manage_input(type=`${type}` , value=`${val}`, id=`${na}` spellCheck='false')
+
+mixin formSimple(na,type,val,id)
+    - if(!id) id = na;
+    li
+        label(for=`${id}`)= `${na} :`
+        input(type=`${type}` , value=`${val}`, id=`${id}` spellCheck='false')
+
+mixin manageLength(sent) 
+  - if(sent.length >= 17)
+    - const ext = sent.split(".")[1];
+    label.tooltip= `${sent.substr(0, 13 - ext.length)}...${ext}`
+      span.tooltip-text= sent
+  - else
+    label= sent
+
+
+h2.manage-heading Edit #{tour.name} Tour
+.manage-overflow
+    form.manage-form
+        +manageForm('name','text',`${tour.name}`)
+        +manageForm('difficulty','text',`${tour.difficulty}`)
+        +manageForm('duration','number',`${tour.duration}`)
+        +manageForm('price','number',`${tour.price}`)
+        +manageForm('summary','text',`${tour.summary}`)
+        +manageForm('maxGroupSize','number',`${tour.maxGroupSize}`)
+        +manageForm('description','text',`${tour.description}`)
+        +manageForm('slug','text',`${tour.slug}`)
+        +manageForm('secretTour','text',`${tour.secretTour}`)
+        - const tourIds = tour.guides.map(el => el._id); 
+        +manageForm('guides','text',tourIds)
+
+
+        .manage-form__group
+            p.manage-label
+                | imageCover 
+                i.fa.fa-caret-down.manage-dropdown
+        .manage-inner.hide-me
+            .manage-left_right.manage-img_desc
+                +manageLength(tour.imageCover)
+            .manage-left_right.manage-right
+                label.manage-choose.image-cover(for='imageCover') choose New
+                input#imageCover.manage_hidden.imageCover(type='file', accept='img/*')
+        .manage-form__group
+            p.manage-label
+                | images 
+                i.fa.fa-caret-down.manage-dropdown
+        .manage-inner.hide-me
+            .manage-left_right.manage-img_desc.images-second
+                each img in tour.images
+                    +manageLength(img)
+            .manage-left_right.manage-right.images_parent
+                each img,i in tour.images
+                    label.manage-choose.image-cover(for=`images ${i}`) choose New
+                    - if(i === tour.images.length - 1 && i < 2)
+                      label: i.fa.fa-plus(style='font-size: 13px;' data-cur=`${i + 1}`)
+                    input.manage_hidden.images(type='file', accept='img/*', id=`images ${i}`)
+                - if(!tour.images || !tour.images[0])
+                  label: i.fa.fa-plus(style='font-size: 13px;' data-cur=`0`)
+
+        .manage-form__group
+            p.manage-label
+                | startLocation 
+                i.fa.fa-caret-down.manage-dropdown(data-one-parent='yeah')
+            ul.unordered-list.hide-me(data-type='startLocation')
+                +formSimple('type','text',tour.startLocation.type)
+                +formSimple('description','text',tour.startLocation.description)
+                +formSimple('coordinates','text',tour.startLocation.coordinates)
+                +formSimple('address','text',tour.startLocation.address)
+        .manage-form__group
+            p.manage-label
+                | Locations 
+                i.fa.fa-caret-down.manage-dropdown(data-one-parent='yeah')
+            ul.unordered-list.hide-me
+                li
+                    each location,i in tour.locations
+                        i.fa.fa-caret-down.manage-dropdown(data-next='yeah')
+                        |  location #{i + 1}
+                        ul.location-unordered-list.hide-me(data-type='locations', data-pos=`${i}`)
+                            +formSimple('type','text',location.type, 'lType')
+                            +formSimple('description','text',location.description, 'lDesc')
+                            +formSimple('coordinates','text',location.coordinates, 'lCoor')
+                            +formSimple('day','number',location.day)
+        .manage-form__group
+            p.manage-label
+                | StartDates 
+                i.fa.fa-caret-down.manage-dropdown(data-one-parent='yeah')
+            ul.unordered-list.hide-me
+                li
+                    each startDate,i in tour.startDates
+                        i.fa.fa-caret-down.manage-dropdown(data-next='yeah')
+                        |  startDate #{i + 1}
+                        ul.location-unordered-list.hide-me(data-type='startDates', data-pos=`${i}`)
+                            +formSimple('participants','number',startDate.participants)
+                            +formSimple('soldOut','text',startDate.soldOut)
+                            +formSimple('date','text',startDate.date)
+

@@ -1,0 +1,17 @@
+extends baseEmail
+
+block content
+  p Hi #{firstName},
+  p Welcome to Natours, You're almost ready signing up. 
+  p Make sure to complete your signup process by clicking on `Continue Signup`.
+    | Can't wait to have you with us!
+  table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+    tbody
+      tr
+        td(align='left')
+          table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+            tbody
+              tr
+                td
+                  a(href=`${url}`, target='_blank') Continue Signup
+  p If you don't want to signup, please ignore this email.

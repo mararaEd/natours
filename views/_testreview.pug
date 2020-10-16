@@ -1,0 +1,11 @@
+.reviews__card
+    .reviews__avatar
+        img.reviews__avatar-img(src=`/img/users/${user.photo}`, alt=`Jim Brown`)
+        h6.reviews__user Reviewing as #{user.name}
+    textarea.add_reviews#myWriteTextarea(cols="27", rows="7", placeholder='Review goes here')
+    .reviews__rating
+        each star in [1,2,3,4,5]
+            svg.reviews__star.reviews_add(class=`reviews__star--inactive` data-rating=star)
+                use(xlink:href='/img/icons.svg#icon-star')
+    button.btn.btn--green.btn-review.btn-review_hidden(data-tour-id= tour._id) 
+      i.fa.fa-check(aria-hiddein='true')

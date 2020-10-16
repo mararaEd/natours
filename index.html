@@ -1,0 +1,30 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const firstPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('hello');
+        }, 1500);
+      });
+
+      const secondPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('hi');
+        }, 3000);
+      });
+
+      (async () => {
+        const letsLook = await firstPromise;
+        console.log(letsLook);
+
+        const letsLook2 = await secondPromise;
+        console.log(letsLook2);
+      })();
+    </script>
+  </body>
+</html>
